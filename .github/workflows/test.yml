@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - uses: actions/checkout@v3
+
       - name: Install Dependencies
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm install eslint -D
