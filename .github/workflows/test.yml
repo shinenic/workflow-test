@@ -10,10 +10,14 @@ on:
 jobs:
   Test:
     if: github.event.pull_request.draft == false
-    name: install dependencies
+    name: Review dog
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
+      - name: Install Dependencies
+        if: steps.node-cache.outputs.cache-hit != 'true'
+        run: npm install eslint -D
+
       - name: ESlint
         uses: reviewdog/action-eslint@v1 
         with:
