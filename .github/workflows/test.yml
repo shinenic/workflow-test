@@ -8,50 +8,40 @@ on:
   pull_request:
     types: [ready_for_review, opened, synchronize, reopened]
 jobs:
-  Test:
-    if: github.event.pull_request.draft == false
-    name: Review dog
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - uses: actions/checkout@v3
+  # Test:
+  #   if: github.event.pull_request.draft == false
+  #   name: Review dog
+  #   runs-on: ubuntu-latest
+  #   timeout-minutes: 15
+  #   steps:
+  #     - uses: actions/checkout@v3
 
-      - name: Install Dependencies
-        if: steps.node-cache.outputs.cache-hit != 'true'
-        run: npm install eslint -D
+  #     - name: Install Dependencies
+  #       if: steps.node-cache.outputs.cache-hit != 'true'
+  #       run: npm install eslint -D
 
-      - name: ESlint
-        uses: reviewdog/action-eslint@v1 
-        with:
-          reporter: github-pr-review
-          level: error
-          filter_mode: nofilter
-          fail_on_error: true
-          eslint_flags: '--quiet'
+  #     - name: ESlint
+  #       uses: reviewdog/action-eslint@v1 
+  #       with:
+  #         reporter: github-pr-review
+  #         level: error
+  #         filter_mode: nofilter
+  #         fail_on_error: true
+  #         eslint_flags: '--quiet'
   Setup:
     if: github.event.pull_request.draft == false
     name: install dependencies
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           persist-credentials: false
 
       - name: Use Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '14'
-
-      - name: Cache Node.js modules
-        uses: actions/cache@v2
-        with:
-          # npm cache files are stored in `~/.npm` on Linux/macOS
-          path: ~/.npm
-          key: ${{ runner.OS }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.OS }}-node-
-            ${{ runner.OS }}-
 
       - name: Cache Node Modules
         id: node-cache
@@ -67,8 +57,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      # - name: Run lint
-      #   run: npm run lint
+      - name: Run lint
+        run: npm run lint
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
