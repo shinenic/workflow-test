@@ -54,11 +54,14 @@ jobs:
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Build
-        run: npm run build
+      - name: Test
+        run: npm run ci
 
-      - name: Run lint
-        run: npm run lint
+      # - name: Build
+      #   run: npm run build
+
+      # - name: Run lint
+      #   run: npm run lint
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
 
