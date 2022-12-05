@@ -54,11 +54,14 @@ jobs:
         if: steps.node-cache.outputs.cache-hit != 'true'
         run: npm ci
 
-      - name: Test
-        run: npm run ci:twice
+      # - name: Test
+      #   run: npm run ci:twice
 
-      # - name: Build
-      #   run: npm run build
+      - name: Build1
+        run: npm run build
+
+      - name: Build2
+        run: npm run build
 
       # - name: Run lint
       #   run: npm run lint
