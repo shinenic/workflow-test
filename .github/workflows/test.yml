@@ -44,14 +44,25 @@ jobs:
           node-version: '14'
 
           # if cache list -q "node-modules-$(hashFiles('package-lock.json'))"; then
-      - name: Check if cache exists
-        id: cache-exists
-        run: |
-          if cache list | grep -c "node-modules-${{ hashFiles('package-lock.json') }}"; then
-            echo "Cache exists"
-          else
-            echo "Cache does not exist"
-          fi
+      # - name: Check if cache exists
+      #   id: cache-exists
+      #   run: |
+      #     if cache list | grep -c "node-modules-${{ hashFiles('package-lock.json') }}"; then
+      #       echo "Cache exists"
+      #     else
+      #       echo "Cache does not exist"
+      #     fi
+
+      # - name: Restore Cache
+      #   id: cache
+      #   uses: actions/cache@v1
+      #   with:
+      #     # Don't restore the cache if it exists
+      #     restore-keys: |
+      #       ${{ always() }}
+      #     # Don't save the cache if it was not restored
+      #     save-outputs: |
+      #       ${{ steps.cache.outputs.cache-hit != 'true' }}
 
       # - name: Check if cache exists
       #   id: cache-exists
@@ -76,6 +87,13 @@ jobs:
       #     key: node-modules-${{ hashFiles('package-lock.json') }}
       #     save: false
       #     restore: false
+
+      - name: Validate Python site-package
+        uses: techservicesillinois/cache-validation@v1
+        id: cache
+        with:
+          path: node-modules-${{ hashFiles('package-lock.json') }}
+          # cache_hit: ${{ steps.python.outputs.cache-hit }}
 
       - name: Cache Node Modules
         id: node-cache
