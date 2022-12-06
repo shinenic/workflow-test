@@ -43,10 +43,11 @@ jobs:
         with:
           node-version: '14'
 
+          # if cache list -q "node-modules-$(hashFiles('package-lock.json'))"; then
       - name: Check if cache exists
         id: cache-exists
         run: |
-          if [[ $(cache list | grep -c "node-modules-${{ hashFiles('package-lock.json') }}") -gt 0 ]]; then
+          if cache list | grep -c "node-modules-${{ hashFiles('package-lock.json') }}"; then
             echo "Cache exists"
           else
             echo "Cache does not exist"
