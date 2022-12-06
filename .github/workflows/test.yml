@@ -93,6 +93,7 @@ jobs:
         id: cache
         with:
           path: node-modules-${{ hashFiles('package-lock.json') }}
+          cache_hit: true
           # cache_hit: ${{ steps.python.outputs.cache-hit }}
 
       - name: Cache Node Modules
