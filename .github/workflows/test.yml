@@ -8,26 +8,6 @@ on:
   pull_request:
     types: [ready_for_review, opened, synchronize, reopened]
 jobs:
-  # Test:
-  #   if: github.event.pull_request.draft == false
-  #   name: Review dog
-  #   runs-on: ubuntu-latest
-  #   timeout-minutes: 15
-  #   steps:
-  #     - uses: actions/checkout@v3
-
-  #     - name: Install Dependencies
-  #       if: steps.node-cache.outputs.cache-hit != 'true'
-  #       run: npm install eslint -D
-
-  #     - name: ESlint
-  #       uses: reviewdog/action-eslint@v1 
-  #       with:
-  #         reporter: github-pr-review
-  #         level: error
-  #         filter_mode: nofilter
-  #         fail_on_error: true
-  #         eslint_flags: '--quiet'
   Setup:
     if: github.event.pull_request.draft == false
     name: install dependencies
@@ -43,78 +23,10 @@ jobs:
         with:
           node-version: '14'
 
-          # if cache list -q "node-modules-$(hashFiles('package-lock.json'))"; then
-      # - name: Check if cache exists
-      #   id: cache-exists
-      #   run: |
-      #     if cache list | grep -c "node-modules-${{ hashFiles('package-lock.json') }}"; then
-      #       echo "Cache exists"
-      #     else
-      #       echo "Cache does not exist"
-      #     fi
+      - uses: bahmutov/npm-install@v1
 
-      # - name: Restore Cache
-      #   id: cache
-      #   uses: actions/cache@v1
-      #   with:
-      #     # Don't restore the cache if it exists
-      #     restore-keys: |
-      #       ${{ always() }}
-      #     # Don't save the cache if it was not restored
-      #     save-outputs: |
-      #       ${{ steps.cache.outputs.cache-hit != 'true' }}
-
-      # - name: Check if cache exists
-      #   id: cache-exists
-      #   run: |
-      #     # Define the hashFiles function
-      #     hashFiles() {
-      #       # Insert code here to generate a unique hash for the specified files
-      #     }
-
-      #     # Check if a cache with the specified name exists
-      #     if cache list -q "node-modules-$(hashFiles('package-lock.json'))"; then
-      #       echo "Cache exists"
-      #     else
-      #       echo "Cache does not exist"
-      #     fi
-
-      # - name: Testssss
-      #   id: node-cachesss
-      #   uses: actions/cache@v2
-      #   with:
-      #     path: node_modules
-      #     key: node-modules-${{ hashFiles('package-lock.json') }}
-      #     save: false
-      #     restore: false
-
-      - name: Validate Python site-package
-        uses: techservicesillinois/cache-validation@v1
-        id: cache
-        with:
-          path: node-modules-${{ hashFiles('package-lock.json') }}
-          cache_hit: true
-          # cache_hit: ${{ steps.python.outputs.cache-hit }}
-
-      - name: Cache Node Modules
-        id: node-cache
-        uses: actions/cache@v2
-        with:
-          path: node_modules
-          key: node-modules-${{ hashFiles('package-lock.json') }}
-
-      - name: Install Dependencies
-        if: steps.node-cache.outputs.cache-hit != 'true'
-        run: npm ci
-
-      # - name: Test
-      #   run: npm run ci:twice
-
-      - name: Build1
-        run: npm run build
-
-      # - name: Run lint
-      #   run: npm run lint
+      - name: Run lint
+        run: npm run lint
 
   # ESlint:
   #   if: github.event.pull_request.draft == false
