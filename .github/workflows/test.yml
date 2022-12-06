@@ -43,6 +43,15 @@ jobs:
         with:
           node-version: '14'
 
+      - name: Check if cache exists
+        id: cache-exists
+        run: |
+          if [[ $(cache list | grep -c node-modules-${{ hashFiles('package-lock.json') }}) -gt 0 ]]; then
+            echo "Cache exists"
+          else
+            echo "Cache does not exist"
+          fi
+
       - name: Cache Node Modules
         id: node-cache
         uses: actions/cache@v2
@@ -60,13 +69,8 @@ jobs:
       - name: Build1
         run: npm run build
 
-      - name: Build2
-        run: npm run build
-
       # - name: Run lint
       #   run: npm run lint
-
-      - run: echo "🍏 This job's status is ${{ job.status }}."
 
   # ESlint:
   #   if: github.event.pull_request.draft == false
