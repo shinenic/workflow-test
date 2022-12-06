@@ -43,14 +43,23 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Check if cache exists
-        id: cache-exists
-        run: |
-          if [[ $(cache list | grep -c node-modules-${{ hashFiles('package-lock.json') }}) -gt 0 ]]; then
-            echo "Cache exists"
-          else
-            echo "Cache does not exist"
-          fi
+      # - name: Check if cache exists
+      #   id: cache-exists
+      #   run: |
+      #     if [[ $(cache list | grep -c node-modules-${{ hashFiles('package-lock.json') }}) -gt 0 ]]; then
+      #       echo "Cache exists"
+      #     else
+      #       echo "Cache does not exist"
+      #     fi
+
+      - name: Testssss
+        id: node-cachesss
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: node-modules-${{ hashFiles('package-lock.json') }}
+          save: false
+          restore: false
 
       - name: Cache Node Modules
         id: node-cache
