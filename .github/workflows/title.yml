@@ -15,7 +15,7 @@ jobs:
       - uses: morrisoncole/pr-lint-action@v1.7.0
         with:
           repo-token: '${{ secrets.GITHUB_TOKEN }}'
-          title-regex: "^(feat|fix|perf|refactor|chore)(?:\\(([^)]+)\\))?:\\s(?:\\[(\\d+)\\/\\d+\\]\\s)?(?:(?:(?!\\[).)+)?(?:\\s\\[sc-(\\d{4})\\])?$"
+          title-regex: "^(feat|fix|perf|refactor|chore)(?:\\(([^)]+)\\))?:\\s(?:\\[(\\d+)\\/\\d+\\]\\s)?(?:(?:(?!\\[).)+)?(?:\\s\\[sc-(\\d{4,5})\\])?$"
           on-failed-regex-request-changes: false
           on-failed-regex-fail-action: true
           on-failed-regex-comment: "The pull request title doesn't match the rules. Please check the guide line here: [notion](https://www.notion.so/shypyard/Pull-request-code-review-convention-2c1f49d2382f4fa6a030c7db2da6e7ec)"
